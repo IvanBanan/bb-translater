@@ -1,0 +1,282 @@
+// out: ../css/style.css, compress: false, strictMath: true
+@import "prefixer";
+a,
+{
+    text-decoration: none;
+    &:hover,
+    &:active,
+    &:visited,
+    &:link {
+        color: inherit;
+        text-decoration: none; 
+    }
+}
+
+html {
+    height: 100%;
+    min-width: 1024px; 
+}
+ 
+body {
+    height: 100%;
+    min-width: 100%;
+    margin: 0;
+    background-color: #fff;
+    font-family: serif;
+    font-weight: 400;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+        display: inline-block;
+        font-size: 14px;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+input,
+button,
+textarea {
+    outline: none;
+}
+
+.clear-up {
+    &::before,
+    &:before {
+        content: " ";
+        width: 100%;
+        display: inline-block;
+        clear: both;
+    }
+}
+
+.clear-down {
+    &::after,
+    &:after {
+        content: " ";
+        width: 100%;
+        display: inline-block;
+        clear: both;
+    }
+}
+
+.clear {
+    &::before,
+    &::after,
+    &:before,
+    &:after {
+        content: " ";
+        width: 100%;
+        display: inline-block;
+        clear: both;
+    }
+}
+
+.clearfix {
+    &::before,
+    &::after,
+    &:before,
+    &:after {
+        content: " ";
+        width: 100%;
+        display: table;
+        clear: both;
+    }
+}
+
+.justify {
+    text-align: justify;
+    //    Лекарство для IE6-7    
+    //    text-justify: newspaper;
+    //    zoom: 1;    
+    //    text-align-last: justify;
+    -ms-text-justify: distribute-all-lines;
+    font-size: 0;
+    &::before,
+    &:before,
+    &::after,
+    &:after {
+        content: " ";
+        width: 100%;
+        height: 0;
+        display: inline-block;
+        clear: both;
+    }
+}
+
+//для opera 12.17
+@media (min-resolution: .001dpcm) {
+    _:-o-prefocus,
+    .justify {
+        font-size: 0.5px;
+        font-family: sans-serif;
+    }
+}
+
+//стили блоков таблично-плиточного отображения начало
+.tile-set {
+    padding: 7px;
+    &::before,
+    &::after,
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+        clear: left;
+    }
+    .tile-item {
+        width: 50%;
+        padding: 7px;
+        float: left;
+        display: table;
+        .box-sizing(border-box);
+        .tile-container {
+            height: 310px;
+            display: table-cell;
+            position: relative;
+            .box-sizing(border-box);
+            background-repeat: no-repeat;
+        }
+    }
+}
+
+//стили блоков таблично-плиточного отображения конец
+.table {
+    display: table;
+}
+
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.center {
+    text-align: center;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.main-container {
+    max-width: 1024px;
+    min-height: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.content-area {
+    position: relative;
+    padding: 0 20px;
+    max-width: 1024px;
+    margin: 0 auto;
+    .box-sizing(border-box);
+}
+
+//.modal-window {
+//    display: none;
+//    width: 400px;
+//    background: #fff;
+//    padding: 15px 30px;
+//    .border-radius(8px);
+//    .box-shadow(0 0 10px #000);
+//}
+//
+//.modal{
+//    top:10% !important;
+//}
+.paper-area {
+    min-height: 800px;
+    padding: 3em 0;
+    //    position: relative;
+    margin: 40px;
+    line-height: 1.4em;
+    text-align: justify;
+    .box-sizing(border-box);
+    .box-shadow(0 8px 30px rgba(0, 0, 0, 0.5));
+    .content-area {
+        padding: 0 5em;
+        position: static;
+    }
+    p {
+        text-indent: 3em;
+    }
+    .sentence {
+        cursor: pointer;
+        &:hover {
+            background-color: #D5D5D5;
+        }
+        &.active {
+            //            font-weight: 700;
+            color: #BDBDBD;
+        }
+    }
+}
+
+.editor {
+    //    position: absolute;
+    //    border-style: solid;
+    //    border-color: #7F7F7F;
+    //    border-bottom-width: 1px;
+    //    border-top-width: 1px;
+    width: calc(100% + 10em); 
+    height: 0;
+    text-indent: 0;
+    position: relative;
+    visibility: hidden;
+    overflow: hidden;
+    font-family: sans-serif;
+    .box-sizing(border-box);
+    margin: 0 -5em;
+    float: left;
+    box-shadow: 0px 8px 15px -10px rgba(0, 0, 0, 0.5) inset, 0px -8px 15px -10px rgba(0, 0, 0, 0.5) inset;
+    .transition(all .1s ease-in-out);
+    &.active {
+        height: 120px;
+        visibility: visible;
+    }
+    .auto-translate {
+        padding: 10px 6em;
+        height: 50%;
+        .box-sizing(border-box);
+        border-bottom: 1px solid #DCDCDC;
+    }
+    .human-translate {
+        padding: 10px 6em;
+        height: 50%;
+        .box-sizing(border-box);
+    }
+    .close-editor {
+        height: 10px;
+        width: 40px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -20px;
+        background-color: #fff;
+        cursor: pointer;
+        .box-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+        .border-radius(4px 4px 0 0;
+        );
+    }
+    textarea {
+        width: 100%;
+        border: none;
+        resize: none;
+    }
+}
+
+@import "media";
