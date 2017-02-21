@@ -180,10 +180,13 @@ textarea {
   cursor: pointer;
 }
 .paper-area .sentence:hover {
-  background-color: #D5D5D5;
+  text-shadow: 0 0 15px #000;
 }
 .paper-area .sentence.active {
   color: #BDBDBD;
+}
+.original-text {
+  display: none;
 }
 .editor {
   width: calc(100% + 10em);
