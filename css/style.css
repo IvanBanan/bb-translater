@@ -183,6 +183,7 @@ textarea {
   text-shadow: 0 0 15px #000;
 }
 .paper-area .sentence.active {
+  text-shadow: none;
   color: #BDBDBD;
 }
 .original-text {
