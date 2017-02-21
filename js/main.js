@@ -14,7 +14,7 @@ var Translater = (function () {
 
         //запрос пока к заглушке, возращающий подготовленные предложения. потом будет обращение к api
         JSON.parse(sendAjax({
-            url: '/json/data.json',
+            url: '../json/data.json',
             callback: callBack
         }));
 
@@ -160,7 +160,7 @@ var Translater = (function () {
 window.addEventListener('load', function (e) {
 //    Translater.prepareSentences('original-text');
     Translater.prepareSentences('sentence-container');
-    Translater.initClickHandler({
-        sQuerySelector: '[to-translate]'
-    });
+//    Translater.initClickHandler({
+//        sQuerySelector: '[to-translate]'
+//    });
 });
