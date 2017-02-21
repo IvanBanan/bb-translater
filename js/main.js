@@ -2,11 +2,11 @@
 
 //модуль переводчик
 var Translater = (function () {
-    var sOriginalText, arrSentences, defaultOptions, oSentences;
+    var sOriginalText, defaultOptions, oSentences;
 
     defaultOptions = {
         sQuerySelector: '[translate]'
-
+        
     };
 
 
@@ -21,6 +21,7 @@ var Translater = (function () {
         function callBack(xhr) {
             oSentences = JSON.parse(xhr.responseText);
             buildDOMSentences(sId);
+            initClickHandler()
         }
     }
 
@@ -99,25 +100,18 @@ var Translater = (function () {
         }
     }
 
-    //навешиваем обработчики на предложения, размещенные в контейнере для перевода
-    function initClickHandler(objOptions) {
+
+    function initClickHandler() {
         var key;
-        //        применение опций к модулю
-        for (key in defaultOptions) {
-            if (!objOptions[key]) {
-                objOptions[key] = defaultOptions[key];
-            }
-        }
-        //        пока так загружается список предложений. хочу хранить их в объекте потом
-        arrSentences = Array.prototype.slice.call(document.querySelectorAll(objOptions.sQuerySelector));
         //навешиваем обработчики на предложения
-        arrSentences.forEach(function (elem) {
-            elem.addEventListener('click', sentenceClick);
-        });
+        for(key in oSentences){
+            oSentences[key].sentence.addEventListener('click', sentenceClick);
+        };
+        
     }
 
     function sentenceClick(e) {
-        var oSentence, sentenceId, oEditor, oCloseBtn;
+        var oSentence, sentenceId, oEditor, oCloseBtn, oAutoTran, oHumanTran;
         oSentence = this;
         sentenceId = this.attributes['sentence-id'].value;
         oEditor = document.querySelector("[editor-id='" + sentenceId + "']");
@@ -126,7 +120,15 @@ var Translater = (function () {
             //клонируем шаблон редактора
             oEditor = document.querySelector('[editor-id="template"]').cloneNode(true);
             oEditor.setAttribute('editor-id', sentenceId);
-            oSentence.classList.add("active");
+            oAutoTran = oEditor.querySelector('[auto-translate-id="template"]');
+            oAutoTran.setAttribute('auto-translate-id', sentenceId);
+            oAutoTran.innerHTML = oSentences[sentenceId]['auto_translate'];
+            oHumanTran = oEditor.querySelector('[human-translate-id="template"]');
+            oHumanTran.setAttribute('human-translate-id', sentenceId);
+            oHumanTran.innerHTML = oSentences[sentenceId]['auto_translate'];
+//            не забыть поменять костыль
+            
+//            oSentence.classList.add("active");
             oSentence.after(oEditor);
 
             // с задержкой для анимации
@@ -139,14 +141,73 @@ var Translater = (function () {
             oCloseBtn.addEventListener("click", function (e) {
                 oEditor.classList.remove("active");
                 oSentence.classList.remove("active");
+                oHumanTran.blur();
             });
+            oHumanTran.addEventListener("blur", function (e) {
+                oSentences[sentenceId]['human_translate'] = oHumanTran.value;
+            });
+            
         } else {
             oEditor.classList.toggle("active");
-            oSentence.classList.toggle("active");
         }
-
-
+        
+        oSentence.classList.toggle("active");
+        
+        
     }
+
+
+
+    //    старые обработчики клика
+
+    //    //навешиваем обработчики на предложения, размещенные в контейнере для перевода
+    //    function initClickHandler(objOptions) {
+    //        var key;
+    //        //        применение опций к модулю
+    //        for (key in defaultOptions) {
+    //            if (!objOptions[key]) {
+    //                objOptions[key] = defaultOptions[key];
+    //            }
+    //        }
+    //        //        пока так загружается список предложений. хочу хранить их в объекте потом
+    //        arrSentences = Array.prototype.slice.call(document.querySelectorAll(objOptions.sQuerySelector));
+    //        //навешиваем обработчики на предложения
+    //        arrSentences.forEach(function (elem) {
+    //            elem.addEventListener('click', sentenceClick);
+    //        });
+    //    }
+    //
+    //    function sentenceClick(e) {
+    //        var oSentence, sentenceId, oEditor, oCloseBtn;
+    //        oSentence = this;
+    //        sentenceId = this.attributes['sentence-id'].value;
+    //        oEditor = document.querySelector("[editor-id='" + sentenceId + "']");
+    //
+    //        if (!oEditor) {
+    //            //клонируем шаблон редактора
+    //            oEditor = document.querySelector('[editor-id="template"]').cloneNode(true);
+    //            oEditor.setAttribute('editor-id', sentenceId);
+    //            oSentence.classList.add("active");
+    //            oSentence.after(oEditor);
+    //
+    //            // с задержкой для анимации
+    //            setTimeout(function () {
+    //                oEditor.classList.add('active');
+    //            }, 100);
+    //
+    //            oCloseBtn = oEditor.querySelector('[close-editor-id]');
+    //            oCloseBtn.setAttribute('close-editor-id', sentenceId);
+    //            oCloseBtn.addEventListener("click", function (e) {
+    //                oEditor.classList.remove("active");
+    //                oSentence.classList.remove("active");
+    //            });
+    //        } else {
+    //            oEditor.classList.toggle("active");
+    //            oSentence.classList.toggle("active");
+    //        }
+    //
+    //
+    //    }
 
 
     return {
@@ -158,7 +219,7 @@ var Translater = (function () {
 
 
 window.addEventListener('load', function (e) {
-//    Translater.prepareSentences('original-text');
+    //    Translater.prepareSentences('original-text');
     Translater.prepareSentences('sentence-container');
 //    Translater.initClickHandler({
 //        sQuerySelector: '[to-translate]'
